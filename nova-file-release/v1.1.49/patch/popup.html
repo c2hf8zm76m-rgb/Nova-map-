@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NOVA File</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="globalDropOverlay" class="global-drop-overlay" aria-hidden="true">
+    <div class="global-drop-message"><div class="global-drop-icon">↥</div><strong>Lâche ton fichier</strong><span>NOVA File va l’analyser</span></div>
+  </div>
+
+  <main class="app">
+    <header class="top">
+      <div class="brand"><div class="logo">N</div><div class="brand-copy"><strong>NOVA File</strong><span>V1.1.49 · FILE CONTROL CENTER</span></div></div>
+      <div class="family-pill"><i></i><span>3 moteurs · transfert multi-fichiers</span></div>
+    </header>
+
+    <section id="homeScreen" class="home-screen">
+      <section class="intro">
+        <span class="eyebrow">NOVA FILE · NOUVELLE FAMILLE</span>
+        <h1>Un fichier.<br><em>Trois pouvoirs.</em></h1>
+        <p>Dépose ton fichier une seule fois. NOVA File te laisse convertir, compresser ou l’envoyer directement vers un autre appareil.</p>
+      </section>
+
+      <section class="drop-wrap">
+        <div id="drop" class="drop" tabindex="0">
+          <input id="fileInput" type="file" hidden>
+          <div class="upload">↥</div>
+          <span class="drop-mini">GLISSER · DÉPOSER</span>
+          <h2 id="dropTitle">Dépose ton fichier ici</h2>
+          <p id="dropCopy">Image, vidéo, audio, PDF, archive, 3D ou autre fichier.</p>
+          <div class="drop-buttons"><button id="chooseFile" class="browse" type="button">Choisir un fichier <span>+</span></button><button id="openReceive" class="receive-entry" type="button">Recevoir un fichier <span>↙</span></button></div>
+        </div>
+      </section>
+
+      <section id="choiceScreen" class="choice hidden">
+        <div class="selected-file">
+          <div id="fileBadge" class="file-badge">FILE</div>
+          <div class="selected-meta"><span>FICHIER CHARGÉ</span><strong id="fileName">—</strong><small id="fileInfo">—</small></div>
+          <button id="changeFile" class="change" type="button">Changer</button>
+        </div>
+
+        <div class="choice-title orb-title"><span>ÉTAPE 2</span><h2>Que veux-tu <em class="animated-word" data-text="faire ?">faire ?</em></h2><p>Le même fichier sera envoyé directement au moteur choisi.</p></div>
+
+        <div class="orb-stage">
+          <div class="orb-network" aria-hidden="true"></div>
+
+          <button id="openCompress" class="orb-action orb-top compress" type="button">
+            <span class="orb-sphere"><span class="orb-icon">⇣</span></span>
+            <span class="orb-name">Compresser</span>
+            <span class="orb-copy">Réduire le poids avec<br>Image, Audio, Vidéo,<br>PDF, ZIP et plus.</span>
+          </button>
+
+          <button id="openConvert" class="orb-action orb-left convert" type="button">
+            <span class="orb-sphere"><span class="orb-icon">⇄</span></span>
+            <span class="orb-name">Convertir</span>
+            <span class="orb-copy">Changer le format :<br>image, audio, vidéo, 3D,<br>archives et plus.</span>
+          </button>
+
+          <button id="openTransfer" class="orb-action orb-right transfer" type="button">
+            <span class="orb-sphere"><span class="orb-icon">↑</span></span>
+            <span class="orb-name">Transférer</span>
+            <span class="orb-copy">Envoyer vers un autre appareil,<br>sans stockage cloud NOVA,<br>même pour de gros fichiers.</span>
+          </button>
+        </div>
+
+        <div class="family-note orb-note"><span>NOVA FILE</span><p>Convertir, compresser et transférer : les trois moteurs de contrôle de fichiers sont maintenant réunis dans NOVA File.</p></div>
+      </section>
+    </section>
+
+    <section id="systemScreen" class="system-screen hidden">
+      <div class="system-bar">
+        <button id="backHome" class="back" type="button">← NOVA File</button>
+        <div><span id="systemKicker">MODULE</span><strong id="systemTitle">—</strong></div>
+        <button id="sendAgain" class="send-again" type="button">Renvoyer le fichier</button>
+      </div>
+      <iframe id="systemFrame" title="Module NOVA File"></iframe>
+    </section>
+
+    <footer>NOVA File · Conversion + Compression + Transfer Direct · NOVA Corporation</footer>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
