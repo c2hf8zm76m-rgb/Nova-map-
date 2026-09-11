@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NOVA File · Convertir</title>
+  <link rel="stylesheet" href="converter.css">
+</head>
+<body>
+  <div id="globalDropOverlay" class="global-drop-overlay" aria-hidden="true">
+    <div class="global-drop-message">
+      <div class="global-drop-icon">↥</div>
+      <strong>Lâche ton fichier</strong>
+      <span>NOVA File le récupère ici</span>
+    </div>
+  </div>
+  <main class="app">
+    <header class="top">
+      <div class="brand">
+        <div class="logo">N</div>
+        <div class="brand-copy">
+          <strong>NOVA File</strong>
+          <span>MODULE CONVERSION · ENGINE V1.6.3</span>
+        </div>
+      </div>
+
+      <div id="enginePill" class="engine">
+        <i></i>
+        <span id="engineText">Connexion…</span>
+      </div>
+
+      <a id="launchEngine" class="launch hidden" href="novaconvert://start">
+        Démarrer Nova Engine
+      </a>
+    </header>
+
+    <section class="intro">
+      <span class="eyebrow">TOUT DANS LE PETIT BLOC</span>
+      <h1>Glisse.<br>Convertis.<br>Télécharge.</h1>
+      <p>Pas de page, pas de fenêtre : tout se fait directement dans l’extension.</p>
+    </section>
+
+    <section class="converter">
+      <div class="converter-head">
+        <div>
+          <strong>Conversion</strong>
+          <span>Image • Audio • Vidéo • 3D • Archives</span>
+        </div>
+        <button id="chooseTop" class="mini-btn" type="button">Choisir</button>
+      </div>
+
+      <div id="drop" class="drop" tabindex="0">
+        <input id="fileInput" type="file" hidden>
+        <div class="upload">↥</div>
+        <h3>Dépose ton fichier</h3>
+        <p>Ou un ZIP / RAR / 7Z / TAR. Pour un ZIP, NOVA te demande maintenant si tu veux convertir l’archive elle-même ou un fichier à l’intérieur.</p>
+        <button id="chooseInside" class="secondary" type="button">Parcourir</button>
+      </div>
+
+      <div id="panel" class="panel hidden">
+        <div class="file-card">
+          <div id="extBadge" class="file-ext">FILE</div>
+          <div class="file-meta">
+            <strong id="fileName">—</strong>
+            <span id="fileInfo">—</span>
+          </div>
+          <button id="remove" class="remove" type="button">×</button>
+        </div>
+
+        <div id="imagePreviewBox" class="image-preview-box hidden">
+          <div class="image-preview-head">
+            <strong>Aperçu de l’image</strong>
+            <span>Tu vois directement ce que tu es en train de convertir</span>
+          </div>
+          <div class="image-preview-stage">
+            <img id="imagePreview" alt="Aperçu du fichier image sélectionné">
+          </div>
+        </div>
+
+        <div id="archiveBox" class="archive-box hidden">
+          <div class="archive-title">
+            <span>📦</span>
+            <strong id="archiveTitleText">Archive détectée</strong>
+          </div>
+
+          <div id="archiveChoice" class="archive-choice hidden">
+            <span class="archive-choice-label">QUE VEUX-TU CONVERTIR ?</span>
+            <div class="archive-choice-grid">
+              <button id="archiveInsideBtn" class="archive-mode-btn" type="button">
+                <b>📄 Fichier à l’intérieur</b>
+                <span>NOVA ouvre le ZIP et te laisse choisir le fichier.</span>
+              </button>
+              <button id="archiveSelfBtn" class="archive-mode-btn archive-self" type="button">
+                <b>📦 Le ZIP lui-même</b>
+                <span>Convertis directement l’archive, par exemple ZIP → TAR.</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="archiveInternalControls" class="archive-internal hidden">
+            <label for="archiveSelect">FICHIER INTERNE</label>
+            <select id="archiveSelect"></select>
+            <p id="archiveHint">Analyse…</p>
+          </div>
+        </div>
+
+        <div class="settings">
+          <label>
+            <span>SOURCE</span>
+            <input id="source" value="—" disabled>
+          </label>
+
+          <label>
+            <span>CONVERTIR EN</span>
+            <select id="target"></select>
+          </label>
+
+          <label>
+            <span>QUALITÉ</span>
+            <select id="quality">
+              <option value="ultra">Ultra</option>
+              <option value="high" selected>Haute</option>
+              <option value="balanced">Équilibrée</option>
+              <option value="light">Légère</option>
+            </select>
+          </label>
+        </div>
+
+        <div id="note" class="note">Prêt.</div>
+
+        <button id="convert" class="primary" type="button" disabled>
+          Convertir maintenant →
+        </button>
+
+        <div id="progress" class="progress hidden">
+          <div class="progress-top">
+            <span id="progressText">Préparation…</span>
+            <b id="progressPct">0%</b>
+          </div>
+          <div class="track">
+            <div id="bar" class="bar"></div>
+          </div>
+        </div>
+
+        <button id="downloadBtn" class="download hidden" type="button">
+          Télécharger le résultat
+        </button>
+      </div>
+    </section>
+
+    <details class="more">
+      <summary>Formats et historique</summary>
+
+      <div class="format-grid">
+        <div>
+          <b>🖼️ Images</b>
+          <p id="imageFormats"></p>
+        </div>
+        <div>
+          <b>🎵 Audio</b>
+          <p id="audioFormats"></p>
+        </div>
+        <div>
+          <b>🎬 Vidéo</b>
+          <p id="videoFormats"></p>
+        </div>
+        <div>
+          <b>🧊 3D</b>
+          <p>OBJ · STL · FBX · GLB · GLTF · DAE · PLY · X3D…</p>
+        </div>
+        <div>
+          <b>📦 Archives</b>
+          <p>ZIP · RAR · 7Z · TAR · TGZ · TXZ · TBZ2…</p>
+        </div>
+      </div>
+
+      <div class="history-head">
+        <b>Historique récent</b>
+        <button id="clearHistory" type="button">Effacer</button>
+      </div>
+
+      <div id="history" class="history">
+        <p class="empty">Aucune conversion récente.</p>
+      </div>
+    </details>
+
+    <footer>NOVA File · Module Conversion</footer>
+  </main>
+
+  <script src="converter.js"></script>
+</body>
+</html>
