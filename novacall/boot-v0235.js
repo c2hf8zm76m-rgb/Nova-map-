@@ -35,9 +35,9 @@
     h=h.replace('<title>NovaCall V0.19.3.1</title>','<title>NovaCall V0.23.4</title>');
     h=h.replace('</head>',shieldStyle+'</head>');h=h.replace('<body>','<body>'+shield);
     const tags=modules.map(src=>'<script type="module" src="'+src+'"></scr'+'ipt>').join('');
-    const sw='<scr'+'ipt>if(\'serviceWorker\' in navigator){navigator.serviceWorker.register(\'/sw.js\\').catch(()=>{})}</scr'+'ipt>';
+    const sw='<scr'+'ipt>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(()=>{})}</scr'+'ipt>';
     const safety='<scr'+'ipt src="https://cdn.jsdelivr.net/gh/c2hf8zm76m-rgb/Nova-map-@272ec7bc6a673636ac65d6038b5a70521820c92d/novacall/media-controls-safety-v0235-loader.js"></scr'+'ipt>';
     const stageGuard='<scr'+'ipt src="https://cdn.jsdelivr.net/gh/c2hf8zm76m-rgb/Nova-map-@1382d8fa9723073a9987c33419815c015df4c383/novacall/screen-consent-stage-guard-v0235.js"></scr'+'ipt>';
-    h=h.replace('</body>',tags+safety+stageGuard+finalizer+sw+'</body>');document.open();document.write(h);document.close();
+    h=h.replace('</body>',finalizer+tags+safety+stageGuard+sw+'</body>');document.open();document.write(h);document.close();
   }catch(e){clearTimeout(timer);document.getElementById('boot').innerHTML='<div class="box"><div class="logo">N</div><b>NovaCall n\'a pas pu charger.</b><small>'+String(e?.message||e)+'</small></div>'}
 })();
