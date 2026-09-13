@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#070914"><title>NovaCall V0.26.1</title>
+<style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#070914;color:#fff;font-family:Inter,system-ui,sans-serif}#boot{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,#6d5cff33,transparent 38%),#070914}.b{text-align:center}.n{width:76px;height:76px;border-radius:24px;margin:0 auto 14px;display:grid;place-items:center;background:linear-gradient(135deg,#776cff,#4d82ff);font-size:31px;font-weight:950;box-shadow:0 20px 70px #4d52ff55}.b strong{display:block;font-size:22px}.b span{display:block;margin-top:7px;color:#929db7;font-size:11px}</style></head>
+<body><div id="boot"><div class="b"><div class="n">N</div><strong>NovaCall V0.26.1</strong><span id="s">Ouverture de NovaCall…</span></div></div>
+<script>
+(async()=>{
+ const UP='https://nova-call-356b7i4xj-alo12230-6256s-projects.vercel.app';
+ const THEME='https://cdn.jsdelivr.net/gh/c2hf8zm76m-rgb/Nova-map-@811eb0941809ecaf8ded5ef7c6bb786d364e49a5/novacall/theme-layouts-v026.mjs';
+ const status=document.getElementById('s');
+ try{
+  try{if('serviceWorker'in navigator){const rs=await navigator.serviceWorker.getRegistrations();await Promise.allSettled(rs.map(r=>r.unregister()))}}catch{}
+  status.textContent='Chargement du moteur…';
+  const c=new AbortController(),tm=setTimeout(()=>c.abort(),10000);
+  const r=await fetch(UP+location.pathname+location.search,{cache:'no-store',signal:c.signal});clearTimeout(tm);
+  if(!r.ok)throw Error('HTTP '+r.status);
+  let h=await r.text();
+  h=h.replace(/NovaCall V0\.25/g,'NovaCall V0.26.1');
+  h=h.replace(/const V='0\.25'/g,"const V='0.26.1'");
+  h=h.replace(/new MutationObserver\(fix\)\.observe\(document\.documentElement,\{subtree:true,childList:true,characterData:true\}\);?/g,'');
+  h=h.replace("if(document.readyState==='complete')setTimeout(start,80);else window.addEventListener('load',()=>setTimeout(start,80),{once:true});","if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>setTimeout(start,40),{once:true});else setTimeout(start,40);setTimeout(start,1600);");
+  const fix=`<style id="nc0261-join">
+  #join{position:fixed!important;inset:0!important;z-index:2147481000!important;display:grid!important;place-items:center!important;padding:24px!important;overflow:auto!important;background:radial-gradient(900px 560px at 50% 18%,rgba(111,91,255,.22),transparent 56%),#070914!important}
+  #join.hide{display:none!important}#join .v16-join-shell{width:min(980px,94vw)!important;display:grid!important;grid-template-columns:minmax(240px,.8fr) minmax(390px,1.2fr)!important;gap:34px!important;align-items:center!important;pointer-events:auto!important}
+  #join .v16-join-card{pointer-events:auto!important;position:relative!important;z-index:5!important;padding:30px!important;border-radius:28px!important;background:linear-gradient(145deg,rgba(18,23,42,.98),rgba(8,12,25,.98))!important;border:1px solid rgba(139,133,255,.22)!important;box-shadow:0 32px 90px rgba(0,0,0,.5),0 0 55px rgba(102,83,255,.12)!important}
+  #join input,#join button{pointer-events:auto!important;position:relative!important;z-index:10!important}#join #name,#join #room{display:block!important;width:100%!important;height:50px!important;opacity:1!important;visibility:visible!important;cursor:text!important;user-select:text!important;-webkit-user-select:text!important;background:#080c18!important;border:1px solid rgba(145,154,210,.24)!important;color:#fff!important;border-radius:13px!important;padding:0 14px!important}
+  #join #name:focus,#join #room:focus{outline:none!important;border-color:#7d6cff!important;box-shadow:0 0 0 4px rgba(125,108,255,.14)!important}#join #enter,#join #quick{height:48px!important;cursor:pointer!important}
+  #join .v16-join-features{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:10px!important;margin-top:14px!important}#join .v16-join-features>div{padding:12px!important;border-radius:14px!important;background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.07)!important}#join .v16-join-features b,#join .v16-join-features span{display:block!important}#join .v16-join-features span{margin-top:4px!important;color:#8893ad!important;font-size:10px!important}
+  @media(max-width:760px){#join .v16-join-shell{grid-template-columns:1fr!important}.v16-join-brand{display:none!important}#join{padding:14px!important}#join .v16-join-features{grid-template-columns:1fr!important}}
+  </style><script id="nc0261-runtime">(()=>{if(window.__nc0261)return;window.__nc0261=1;const V='0.26.1';const fix=()=>{document.title='NovaCall V'+V;const a=document.querySelector('.v16-brandname span');if(a)a.textContent='V'+V;const b=document.querySelector('.brand .v');if(b)b.textContent=V;for(const id of ['name','room']){const e=document.getElementById(id);if(e){e.disabled=false;e.readOnly=false;e.tabIndex=0;e.style.pointerEvents='auto'}}};fix();document.addEventListener('DOMContentLoaded',fix,{once:true});setTimeout(fix,50);setTimeout(fix,500);setTimeout(fix,1500);setInterval(fix,2200);window.addEventListener('nc-core-ready',()=>{setTimeout(()=>import('${THEME}').catch(e=>console.warn('NovaCall theme',e)),300)},{once:true});setTimeout(()=>{if(!window.__NovaCallThemeLayouts026)import('${THEME}').catch(()=>{})},3500)})();<\/script>`;
+  h=h.replace('</head>',fix+'</head>');
+  document.open();document.write(h);document.close();
+ }catch(e){status.textContent='Erreur de chargement : '+(e?.message||e)}
+})();
+</script></body></html>
