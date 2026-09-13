@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070a13">
+  <title>NovaCall V0.26</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:#070a13;color:#fff;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    #boot{position:fixed;inset:0;z-index:2147483647;display:grid;place-items:center;background:radial-gradient(circle at 50% 20%,rgba(103,92,238,.24),transparent 36%),#070a13;transition:opacity .22s ease}.box{text-align:center}.logo{width:76px;height:76px;border-radius:24px;margin:0 auto 16px;display:grid;place-items:center;background:linear-gradient(135deg,#776cff,#4d82ff);font-size:31px;font-weight:950;box-shadow:0 22px 72px rgba(77,82,255,.34)}.box b{display:block;font-size:23px}.box span{display:block;margin-top:7px;color:#929db7;font-size:11px}.bar{width:140px;height:4px;margin:18px auto 0;border-radius:999px;background:#171c2b;overflow:hidden}.bar i{display:block;height:100%;width:42%;background:linear-gradient(90deg,#776cff,#a493ff,#4d82ff);animation:l 1s ease-in-out infinite}@keyframes l{0%{transform:translateX(-120%)}100%{transform:translateX(350%)}}
+  </style>
+</head>
+<body>
+<div id="boot"><div class="box"><div class="logo">N</div><b>NovaCall V0.26</b><span id="s">Chargement de la nouvelle interface…</span><div class="bar"><i></i></div></div></div>
+<script>
+(async()=>{
+  const UPSTREAM='https://nova-call-356b7i4xj-alo12230-6256s-projects.vercel.app';
+  const MODULE='https://cdn.jsdelivr.net/gh/c2hf8zm76m-rgb/Nova-map-@811eb0941809ecaf8ded5ef7c6bb786d364e49a5/novacall/theme-layouts-v026.mjs';
+  const status=document.getElementById('s');
+  try{
+    status.textContent='Nettoyage des anciennes interfaces…';
+    try{if('serviceWorker' in navigator){const rs=await navigator.serviceWorker.getRegistrations();await Promise.allSettled(rs.map(r=>r.unregister()))}}catch{}
+    status.textContent='Chargement de NovaCall…';
+    const c=new AbortController(),t=setTimeout(()=>c.abort(),10000);
+    const r=await fetch(UPSTREAM+location.pathname+location.search,{cache:'no-store',signal:c.signal});clearTimeout(t);
+    if(!r.ok)throw Error('HTTP '+r.status);
+    let h=await r.text();
+    h=h.replace(/NovaCall V0\.25(?:\.1)?/g,'NovaCall V0.26');
+    h=h.replace(/const V='0\.25(?:\.1)?'/g,"const V='0.26'");
+    h=h.replace(/new MutationObserver\(fix\)\.observe\(document\.documentElement,\{subtree:true,childList:true,characterData:true\}\);?/g,'');
+    h=h.replace(/<\/head>/,`<script type="module" src="${MODULE}"><\/script><script>(()=>{const f=()=>{document.title='NovaCall V0.26';document.querySelectorAll('.brand .v,.v16-brandname span,.nc20-brand small,[class*=version]').forEach(e=>{if(e.children?.length)return;const x=(e.textContent||'').trim();if(/^V?0\\.(?:1[6-9]|2[0-6])(?:\\.\\d+)*$/i.test(x))e.textContent=(x[0]?.toUpperCase()==='V'?'V':'')+'0.26'})};document.addEventListener('DOMContentLoaded',f,{once:true});setTimeout(f,100);setTimeout(f,800);setInterval(f,2500)})();<\/script></head>`);
+    document.open();document.write(h);document.close();
+  }catch(e){status.textContent='Erreur : '+(e?.message||e)}
+})();
+</script>
+</body>
+</html>
