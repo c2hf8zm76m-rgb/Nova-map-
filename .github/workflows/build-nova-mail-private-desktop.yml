@@ -1,0 +1,82 @@
+name: Build Nova Mail Private Desktop
+
+on:
+  push:
+    branches:
+      - nova-mail-private-desktop-build
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: nova-mail-desktop-private
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Download validated Nova Mail sources
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path downloads | Out-Null
+          New-Item -ItemType Directory -Force -Path downloads/icons | Out-Null
+
+          $previewHost = 'https://nova-mail-07-real-sending-flqm2ly4u-alo12230-6256s-projects.vercel.app'
+          $previewShare = $previewHost + '/?_vercel_share=23rmPz2UpjnkrWdID2cOGc6Iu7i1wmP6'
+          curl.exe -L -f -c preview.cookies -b preview.cookies $previewShare -o NUL
+          foreach ($f in @('s1.js','s2.js','s3.js','s4.js','p1.js','p2.js')) {
+            curl.exe -L -f -c preview.cookies -b preview.cookies "$previewHost/$f" -o "downloads/$f"
+          }
+
+          $baseHost = 'https://nova-mail-07-real-sending-i712daj0m-alo12230-6256s-projects.vercel.app'
+          $baseShare = $baseHost + '/?_vercel_share=ruVlgCZLahDKkzPMBTpmvPeM0SFREDYZ'
+          curl.exe -L -f -c base.cookies -b base.cookies $baseShare -o downloads/base-index.html
+          curl.exe -L -f -c base.cookies -b base.cookies "$baseHost/app.js?v=010030" -o downloads/base-app.js
+          foreach ($f in @('styles.css','icon.svg','manifest.webmanifest','sw.js')) {
+            curl.exe -L -f -c base.cookies -b base.cookies "$baseHost/$f" -o "downloads/$f"
+          }
+          foreach ($f in @('icon-192.png','icon-512.png')) {
+            curl.exe -L -f -c base.cookies -b base.cookies "$baseHost/icons/$f" -o "downloads/icons/$f"
+          }
+
+          $stableHost = 'https://nova-mail-07-real-sending-o2et58az5-alo12230-6256s-projects.vercel.app'
+          $stableShare = $stableHost + '/?_vercel_share=Ybphnpz68E5UH3PMjscEMdQiEVS9V0kg'
+          curl.exe -L -f -c stable.cookies -b stable.cookies $stableShare -o NUL
+          foreach ($f in @('smart-links-010072.css','folder-drag-drop.css','bulk-message-actions.css','auth-progress.css','cloud-auto-connect.css','auth-progress.js','smart-links-010072.js','badge-system-010060.js')) {
+            curl.exe -L -f -c stable.cookies -b stable.cookies "$stableHost/$f" -o "downloads/$f"
+          }
+          foreach ($f in @('nova-favicon.svg','favicon.ico','apple-touch-icon-desktop.png')) {
+            curl.exe -L -c stable.cookies -b stable.cookies "$stableHost/$f" -o "downloads/$f"
+          }
+
+      - name: Build validated web bundle
+        run: node build-web.js
+
+      - name: Validate private feature
+        shell: pwsh
+        run: |
+          node --check main.js
+          node --check web/app.js
+          if (-not (Select-String -Path web/app.js -Pattern 'privateNav' -Quiet)) { throw 'Private folder patch missing' }
+          if (-not (Select-String -Path web/app.js -Pattern 'exactement 5 chiffres' -Quiet)) { throw '5-digit PIN patch missing' }
+          if (-not (Select-String -Path web/app.js -Pattern 'Toujours protéger cet expéditeur' -Quiet)) { throw 'Private sender rule patch missing' }
+
+      - name: Install Electron builder
+        run: npm install --no-audit --no-fund
+
+      - name: Build Windows portable EXE
+        run: npm run dist
+
+      - name: Upload Nova Mail EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: Nova-Mail-Private-0.10.8.8-Windows
+          path: nova-mail-desktop-private/dist/Nova-Mail-Private-0.10.8.8.exe
+          if-no-files-found: error
+          retention-days: 30
