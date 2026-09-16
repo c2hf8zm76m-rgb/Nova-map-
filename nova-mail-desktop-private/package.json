@@ -1,6 +1,6 @@
 {
   "name": "nova-mail-private-desktop",
-  "version": "0.10.8.8",
+  "version": "0.10.8",
   "description": "Nova Mail Desktop — stable 0.10.8.7 + Private folder",
   "main": "main.js",
   "author": "Nova Corporation",
