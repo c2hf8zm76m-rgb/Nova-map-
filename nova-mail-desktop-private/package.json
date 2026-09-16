@@ -1,0 +1,38 @@
+{
+  "name": "nova-mail-private-desktop",
+  "version": "0.10.8.8",
+  "description": "Nova Mail Desktop — stable 0.10.8.7 + Private folder",
+  "main": "main.js",
+  "author": "Nova Corporation",
+  "license": "UNLICENSED",
+  "scripts": {
+    "build:web": "node build-web.js",
+    "dist": "electron-builder --win portable --x64"
+  },
+  "devDependencies": {
+    "electron": "44.3.0",
+    "electron-builder": "26.0.12"
+  },
+  "build": {
+    "appId": "de.novacorps.mail",
+    "productName": "Nova Mail",
+    "asar": true,
+    "files": [
+      "main.js",
+      "web/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "Nova-Mail-Private-0.10.8.8.exe"
+    }
+  }
+}
