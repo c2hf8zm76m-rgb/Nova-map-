@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - nova-mail-private-desktop-build
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
